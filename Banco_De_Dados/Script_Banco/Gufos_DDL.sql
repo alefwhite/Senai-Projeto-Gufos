@@ -1,0 +1,59 @@
+CREATE DATABASE Gufos;
+
+USE Gufos;
+
+/*** CRIAÇÃO DAS TABELAS DO GUFOS ***/
+
+CREATE TABLE Tipo_usuario
+(
+	Tipo_usuario_id INT IDENTITY PRIMARY KEY NOT NULL,
+	Titulo VARCHAR(255) UNIQUE NOT NULL
+);
+
+
+CREATE TABLE Usuario
+(
+	Usuario_id INT IDENTITY PRIMARY KEY NOT NULL,
+	Nome VARCHAR(255) NOT NULL,
+	Email VARCHAR(255) UNIQUE NOT NULL,
+	Senha VARCHAR(255) NOT NULL,
+	Tipo_usuario_id INT FOREIGN KEY REFERENCES Tipo_usuario(Tipo_usuario_id)
+);
+
+CREATE TABLE Localizacao
+(
+	Localizacao_id INT IDENTITY PRIMARY KEY NOT NULL,
+	CNPJ CHAR(14) UNIQUE NOT NULL, CONSTRAINT Valida_CNPJ CHECK(LEN(CNPJ) > 13),
+	Razao_social VARCHAR(255) UNIQUE NOT NULL,
+	Endereco VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE Categoria
+(
+	Categoria_id INT IDENTITY PRIMARY KEY NOT NULL,
+	Titulo VARCHAR(255) UNIQUE NOT NULL
+);
+
+CREATE TABLE Evento
+(
+	Evento_id INT IDENTITY PRIMARY KEY NOT NULL,
+	Titulo VARCHAR(255) UNIQUE NOT NULL,
+	Categoria_id INT FOREIGN KEY REFERENCES Categoria(Categoria_id),
+	Acesso_livre BIT DEFAULT(1) NOT NULL,
+	Data_evento DATETIME NOT NULL,
+	Localizacao_id INT FOREIGN KEY REFERENCES Localizacao(Localizacao_id)
+
+);
+
+
+CREATE TABLE Presenca
+(
+	Presenca_id INT IDENTITY PRIMARY KEY NOT NULL,
+	Evento_id INT FOREIGN KEY REFERENCES Evento(Evento_id),
+	Usuario_id INT FOREIGN KEY REFERENCES Usuario(Usuario_id),
+	Presenca_status VARCHAR(255) UNIQUE NOT NULL
+
+);
+
+/*** CRIAÇÃO DAS TABELAS DO GUFOS ***/
+
