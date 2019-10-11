@@ -111,9 +111,9 @@ table nav ul li {
     padding: 80px 40px;
     margin: 40px 0;
     border-radius: 4px;
-    -webkit-box-shadow: 5px 5px 30px -15px rgba(204,204,204,1);
-    -moz-box-shadow: 5px 5px 30px -15px rgba(204,204,204,1);
-    box-shadow: 5px 5px 30px -15px rgba(204,204,204,1);
+    -webkit-box-shadow: -1px 3px 25px 0px rgba(163,157,163,1);
+    -moz-box-shadow: -1px 3px 25px 0px rgba(163,157,163,1);
+    box-shadow: -1px 3px 25px 0px rgba(163,157,163,1);
 }
 
 #form_cadastro {
