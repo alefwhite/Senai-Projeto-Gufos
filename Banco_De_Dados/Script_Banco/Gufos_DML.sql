@@ -29,7 +29,7 @@ VALUES('C#', 2, 0, '2019-08-07 18:00:00', 1),
 
 -- Tabela de Presenca
 INSERT INTO Presenca(Evento_id, Usuario_id, Presenca_status) 
-VALUES(1, 2, ),(2, 2, );
+VALUES(2, 2, 'AGUARDANDO'),(3, 1, 'CONFIRMADO');
 
 /*** Inserindo os dados nas tabelas do projeto Gufos ***/
 
