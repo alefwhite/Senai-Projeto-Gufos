@@ -26,5 +26,37 @@ namespace BackEnd.Controllers
 
             return categorias;
         }
+
+        // GET: api/categoria/2
+        [HttpGet("{id}")] // "{id}/{outro}" caso a rota tenha dois parametros
+        public async Task<ActionResult<Categoria>> Get(int id) 
+        {   
+            // FindAsync = procura algo especifico no banco
+            var categoria =  await _contexto.Categoria.FindAsync(id);
+
+            if(categoria == null) {
+                return NotFound();
+            }
+
+            return categoria;
+        }
+
+         // POST: api/categoria
+        [HttpPost] 
+        public async Task<ActionResult<Categoria>> Post(Categoria categoria) 
+        {   
+            try{
+                // Tratamos contra ataques de SQL Injection
+                await _contexto.AddAsync(categoria);
+
+                // Salvamos efetivamente o nosso objeto no banco de dados
+                await _contexto.SaveChangesAsync();
+
+            } catch(DbUpdateConcurrencyException) {
+                throw;
+            }
+
+            return categoria;
+        }
     }
 }
