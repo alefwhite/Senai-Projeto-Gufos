@@ -1,0 +1,2 @@
+// Gerar Documentação das APIS
+https://mherman.org/blog/swagger-and-nodejs/

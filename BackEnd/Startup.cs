@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,8 +11,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-
+using System.IO;
 // Instalamos o Entity framework 
 // dotnet tool install --global dotnet-ef
 
@@ -34,6 +36,10 @@ using Newtonsoft.Json;
 // Para adicionar a arvore de objetos adicionamos uma nova biblioteca JSON
 // dotnet add package Microsoft.AspNetCore.Mvc.NewtonsoftJson
 
+// Swagger - Documentação 
+// Instalamos o pacote 
+// dotnet add BackEnd.csproj package Swashbuckle.AspNetCore -v 5.0.0-rc4
+
 namespace BackEnd
 {
     public class Startup
@@ -51,10 +57,20 @@ namespace BackEnd
             // Comentar Após ter instalado a biblioteca do JSON
             //services.AddControllers();
 
-           // Incluir Após ter instalado a biblioteca do JSON
+            // Configuramos comos os objetos relacionados aparecerao nos retornos, Incluir Após ter instalado a biblioteca do JSON
             services.AddControllersWithViews().AddNewtonsoftJson(
                opt => opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore
             ); 
+
+            // Configuramos o Swagger
+            services.AddSwaggerGen(c => {
+                c.SwaggerDoc("v1", new OpenApiInfo{ Title = "API", Version = "v1"});
+
+                // Definimos o caminho e arquivo temporário de documentação
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +80,13 @@ namespace BackEnd
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            // Usamos Efetivamente o SWAGGER
+            app.UseSwagger();
+            // Especificamos o Endpoint na aplicação
+            app.UseSwaggerUI(c => {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
+            });
 
             app.UseHttpsRedirection();
 

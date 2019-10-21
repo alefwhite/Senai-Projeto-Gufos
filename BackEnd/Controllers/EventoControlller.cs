@@ -15,6 +15,10 @@ namespace BackEnd.Controllers
         GufosContext _contexto = new GufosContext();
 
         // GET: api/evento
+        /// <summary>
+        /// Pegamos todos os eventos cadastrados
+        /// </summary>
+        /// <returns>Lista de eventos</returns>
         [HttpGet]
         public async Task<ActionResult<List<Evento>>> Get() 
         {   
