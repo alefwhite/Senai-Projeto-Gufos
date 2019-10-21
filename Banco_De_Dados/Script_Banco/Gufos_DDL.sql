@@ -55,5 +55,10 @@ CREATE TABLE Presenca
 
 );
 
+
+ALTER TABLE Presenca ALTER COLUMN Presenca_status VARCHAR(255) NOT NULL;
+
+
+
 /*** CRIAÇÃO DAS TABELAS DO GUFOS ***/
 
