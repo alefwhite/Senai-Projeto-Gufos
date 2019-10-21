@@ -14,6 +14,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using System.IO;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 // Instalamos o Entity framework 
 // dotnet tool install --global dotnet-ef
 
@@ -39,6 +42,10 @@ using System.IO;
 // Swagger - Documentação 
 // Instalamos o pacote 
 // dotnet add BackEnd.csproj package Swashbuckle.AspNetCore -v 5.0.0-rc4
+
+// JWT - JSON WEB TOKEN
+//Adicionamos o pacote JWT
+// dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 3.0.0
 
 namespace BackEnd
 {
@@ -70,6 +77,19 @@ namespace BackEnd
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+            });
+
+            // Configuramos o JWT
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters{
+                    ValidateIssuer = true, // Validar Emissor
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt : Issuer"],
+                    ValidAudience = Configuration["Jwt : Issuer"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt : Ket"]))
+                };
             });
         }
 
