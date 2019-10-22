@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,12 +10,13 @@ namespace BackEnd.Controllers
     // Definimos nossa rota do controller e dizemos que é um controller de API
     [Route("api/[controller]")]
     [ApiController] // Aqui dizemos que é um controller de Api para funcionar a nossa rota
+    [Authorize]
     public class UsuarioController : ControllerBase
     {   
         // Instaciamos nosso contexto("Banco")
         GufosContext _contexto = new GufosContext();
 
-        // GET: api/usuario
+        // GET: api/usuario        
         [HttpGet]
         public async Task<ActionResult<List<Usuario>>> Get() 
         {   
