@@ -108,6 +108,9 @@ namespace BackEnd
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
             });
 
+            // Usamos efetivamente a autenticação
+            app.UseAuthentication();
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
