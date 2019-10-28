@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Domains;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,15 +13,13 @@ namespace BackEnd.Controllers
     public class PresencaController : ControllerBase
     {   
         // Instaciamos nosso contexto("Banco")
-        GufosContext _contexto = new GufosContext();
+       PresencaRepository _repositorio = new PresencaRepository();
 
         // GET: api/presenca
         [HttpGet]
         public async Task<ActionResult<List<Presenca>>> Get() 
-        {   
-            // Include e como se fosse um join, após instalarmos a biblioteca do JSON incluimos os Includes
-            // Include("") = Adiciona a arvore 
-            var presencas =  await _contexto.Presenca.Include("Evento").Include("Usuario").ToListAsync();
+        {    
+            var presencas =  await _repositorio.Listar();
 
             if(presencas == null) {
                 return NotFound();
@@ -34,10 +33,7 @@ namespace BackEnd.Controllers
         public async Task<ActionResult<Presenca>> Get(int id) 
         {   
             // FindAsync = procura algo especifico no banco
-            var presenca =  await _contexto.Presenca.Include("Evento").Include("Usuario").FirstOrDefaultAsync(p => p.PresencaId == id);             
-
-             // Forma mais complicada
-            // var presenca =  await _contexto.Presenca.Include(c => c.Categoria).Include(l => l.Localizacao).FirstOrDefaultAsync(e => e.PresencaId == id);
+            var presenca =  await _repositorio.BuscarPorID(id);             
            
             if(presenca == null) {
                 return NotFound();
@@ -51,11 +47,8 @@ namespace BackEnd.Controllers
         public async Task<ActionResult<Presenca>> Post(Presenca presenca) 
         {   
             try{
-                // Tratamos contra ataques de SQL Injection
-                await _contexto.AddAsync(presenca);
-
-                // Salvamos efetivamente o nosso objeto no banco de dados
-                await _contexto.SaveChangesAsync();
+               
+               await _repositorio.Salvar(presenca);
 
             } catch(DbUpdateConcurrencyException) {
                 throw;
@@ -74,16 +67,12 @@ namespace BackEnd.Controllers
                 return BadRequest(); 
             }
 
-            // Comparamos os atributos que foram modificados através do Entity Framework
-            // No caso ele so irá dar um SET nas colunas que foram modificadas
-            _contexto.Entry(presenca).State = EntityState.Modified;   
-
             try {
-                await _contexto.SaveChangesAsync();
+                await _repositorio.Alterar(presenca);
             } catch(DbUpdateConcurrencyException) {
                 
                 // Verificamos se o objeto inserido realmente existe no banco
-                var presenca_valido = await _contexto.Presenca.FindAsync(id);
+                var presenca_valido = await _repositorio.BuscarPorID(id);
                 
                 if(presenca_valido == null) {
                     return NotFound();
@@ -102,16 +91,14 @@ namespace BackEnd.Controllers
         public async Task<ActionResult<Presenca>> Delete(int id)
         {   
             // FindAsync = procura algo especifico no banco
-            var presenca = await _contexto.Presenca.FindAsync(id);
+            var presenca = await _repositorio.BuscarPorID(id);
             
             if(presenca == null) {
                 return NotFound();
             }
 
-            _contexto.Presenca.Remove(presenca);
-
-            await _contexto.SaveChangesAsync();
-
+            await _repositorio.Excluir(presenca);
+            
             return presenca;
         }
     }

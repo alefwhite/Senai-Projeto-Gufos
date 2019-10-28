@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Domains;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,13 +13,14 @@ namespace BackEnd.Controllers
     public class LocalizacaoController : ControllerBase
     {   
         // Instaciamos nosso contexto("Banco")
-        GufosContext _contexto = new GufosContext();
+        
+        LocalizacaoRepository _repositorio = new LocalizacaoRepository();
 
         // GET: api/localizacao
         [HttpGet]
         public async Task<ActionResult<List<Localizacao>>> Get() 
         {
-            var localizacoes =  await _contexto.Localizacao.ToListAsync();
+            var localizacoes =  await _repositorio.Listar();
 
             if(localizacoes == null) {
                 return NotFound();
@@ -31,8 +33,7 @@ namespace BackEnd.Controllers
         [HttpGet("{id}")] // "{id}/{outro}" caso a rota tenha dois parametros
         public async Task<ActionResult<Localizacao>> Get(int id) 
         {   
-            // FindAsync = procura algo especifico no banco
-            var localizacao =  await _contexto.Localizacao.FindAsync(id);
+            var localizacao =  await _repositorio.BuscarPorID(id);
 
             if(localizacao == null) {
                 return NotFound();
@@ -46,11 +47,7 @@ namespace BackEnd.Controllers
         public async Task<ActionResult<Localizacao>> Post(Localizacao localizacao) 
         {   
             try{
-                // Tratamos contra ataques de SQL Injection
-                await _contexto.AddAsync(localizacao);
-
-                // Salvamos efetivamente o nosso objeto no banco de dados
-                await _contexto.SaveChangesAsync();
+               await _repositorio.Salvar(localizacao);
 
             } catch(DbUpdateConcurrencyException) {
                 throw;
@@ -67,18 +64,16 @@ namespace BackEnd.Controllers
             // Se o Id do objeto não existir ele retorna o erro 404
             if(id != localizacao.LocalizacaoId) {
                 return BadRequest(); 
-            }
-
-            // Comparamos os atributos que foram modificados através do Entity Framework
-            // No caso ele so irá dar um SET nas colunas que foram modificadas
-            _contexto.Entry(localizacao).State = EntityState.Modified;   
+            }          
 
             try {
-                await _contexto.SaveChangesAsync();
+
+               await _repositorio.Alterar(localizacao);
+
             } catch(DbUpdateConcurrencyException) {
                 
                 // Verificamos se o objeto inserido realmente existe no banco
-                var localizacao_valido = await _contexto.Localizacao.FindAsync(id);
+                var localizacao_valido = await _repositorio.BuscarPorID(id);
                 
                 if(localizacao_valido == null) {
                     return NotFound();
@@ -97,15 +92,13 @@ namespace BackEnd.Controllers
         public async Task<ActionResult<Localizacao>> Delete(int id)
         {   
             // FindAsync = procura algo especifico no banco
-            var localizacao = await _contexto.Localizacao.FindAsync(id);
+            var localizacao = await _repositorio.BuscarPorID(id);
             
             if(localizacao == null) {
                 return NotFound();
-            }
+            }           
 
-            _contexto.Localizacao.Remove(localizacao);
-
-            await _contexto.SaveChangesAsync();
+            await _repositorio.Excluir(localizacao);
 
             return localizacao;
         }

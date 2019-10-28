@@ -33,7 +33,6 @@ namespace BackEnd.Controllers
         [HttpGet("{id}")] // "{id}/{outro}" caso a rota tenha dois parametros
         public async Task<ActionResult<Categoria>> Get(int id) 
         {   
-            // FindAsync = procura algo especifico no banco
             var categoria =  await _repositorio.BuscarPorID(id);
 
             if(categoria == null) {

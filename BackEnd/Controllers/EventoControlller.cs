@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using BackEnd.Domains;
+using BackEnd.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -12,7 +13,8 @@ namespace BackEnd.Controllers
     public class EventoController : ControllerBase
     {   
         // Instaciamos nosso contexto("Banco")
-        GufosContext _contexto = new GufosContext();
+        //GufosContext _contexto = new GufosContext();
+        EventoRepository _repositorio = new EventoRepository();
 
         // GET: api/evento
         /// <summary>
@@ -21,10 +23,8 @@ namespace BackEnd.Controllers
         /// <returns>Lista de eventos</returns>
         [HttpGet]
         public async Task<ActionResult<List<Evento>>> Get() 
-        {   
-            // Include e como se fosse um join, após instalarmos a biblioteca do JSON incluimos os Includes
-            // Include("") = Adiciona a arvore 
-            var eventos =  await _contexto.Evento.Include("Categoria").Include("Localizacao").ToListAsync();
+        {               
+            var eventos = await _repositorio.Listar();
 
             if(eventos == null) {
                 return NotFound();
@@ -36,12 +36,8 @@ namespace BackEnd.Controllers
         // GET: api/evento/2
         [HttpGet("{id}")] // "{id}/{outro}" caso a rota tenha dois parametros
         public async Task<ActionResult<Evento>> Get(int id) 
-        {   
-            // FindAsync = procura algo especifico no banco
-            var evento =  await _contexto.Evento.Include("Categoria").Include("Localizacao").FirstOrDefaultAsync(e => e.EventoId == id);             
-
-             // Forma mais complicada
-            // var evento =  await _contexto.Evento.Include(c => c.Categoria).Include(l => l.Localizacao).FirstOrDefaultAsync(e => e.EventoId == id);
+        {             
+            var evento = await _repositorio.BuscarPorID(id);            
            
             if(evento == null) {
                 return NotFound();
@@ -55,11 +51,7 @@ namespace BackEnd.Controllers
         public async Task<ActionResult<Evento>> Post(Evento evento) 
         {   
             try{
-                // Tratamos contra ataques de SQL Injection
-                await _contexto.AddAsync(evento);
-
-                // Salvamos efetivamente o nosso objeto no banco de dados
-                await _contexto.SaveChangesAsync();
+              await _repositorio.Salvar(evento);
 
             } catch(DbUpdateConcurrencyException) {
                 throw;
@@ -76,18 +68,14 @@ namespace BackEnd.Controllers
             // Se o Id do objeto não existir ele retorna o erro 404
             if(id != evento.EventoId) {
                 return BadRequest(); 
-            }
+            }           
 
-            // Comparamos os atributos que foram modificados através do Entity Framework
-            // No caso ele so irá dar um SET nas colunas que foram modificadas
-            _contexto.Entry(evento).State = EntityState.Modified;   
-
-            try {
-                await _contexto.SaveChangesAsync();
+            try {                
+                await _repositorio.Alterar(evento);
             } catch(DbUpdateConcurrencyException) {
                 
                 // Verificamos se o objeto inserido realmente existe no banco
-                var evento_valido = await _contexto.Evento.FindAsync(id);
+                var evento_valido = await _repositorio.BuscarPorID(id);
                 
                 if(evento_valido == null) {
                     return NotFound();
@@ -105,16 +93,14 @@ namespace BackEnd.Controllers
         [HttpDelete("{id}")]
         public async Task<ActionResult<Evento>> Delete(int id)
         {   
-            // FindAsync = procura algo especifico no banco
-            var evento = await _contexto.Evento.FindAsync(id);
+            var evento = await _repositorio.BuscarPorID(id);
             
             if(evento == null) {
                 return NotFound();
             }
 
-            _contexto.Evento.Remove(evento);
 
-            await _contexto.SaveChangesAsync();
+            await _repositorio.Excluir(evento);
 
             return evento;
         }
