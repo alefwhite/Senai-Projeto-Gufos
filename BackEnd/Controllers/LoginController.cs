@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using BackEnd.Domains;
+using BackEnd.Repositories;
 using BackEnd.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace BackEnd.Controllers
     public class LoginController : ControllerBase
     {   
         // Chamamos nosso contexto da base de dados
-        GufosContext _contexto = new GufosContext();
+       LoginRepository _repositorio = new LoginRepository();
 
         // Definimos uma variavel para percorrer nossos métodos com as configurações obtidas no appsetting.json
         private IConfiguration _config;
@@ -29,14 +30,9 @@ namespace BackEnd.Controllers
         }
 
         // Chamamos nosso método para validar o usuário na aplicação, verificando se ele existe em nosso banco de dados
-        private Usuario ValidaUsuario(LoginViewModel login) { // Antes era (Usuario login)
-            var usuario = _contexto.Usuario.FirstOrDefault(
-                u => u.Email == login.Email && u.Senha == login.Senha
-            );
+        private Usuario ValidaUsuario(LoginViewModel login) { 
 
-            // if(usuario != null) {
-            //     usuario = login;
-            // }
+            var usuario = _repositorio.Logar(login);          
 
             return usuario;
         }
