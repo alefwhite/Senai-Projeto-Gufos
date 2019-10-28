@@ -27,7 +27,7 @@ namespace BackEnd.Repositories
             using(GufosContext _contexto = new GufosContext()){
                 // Include e como se fosse um join, após instalarmos a biblioteca do JSON incluimos os Includes
                 // Include("") = Adiciona a arvore 
-               return await _contexto.Presenca.Include("Presenca").Include("Usuario").FirstOrDefaultAsync(e => e.PresencaId == id);
+               return await _contexto.Presenca.Include("Evento").Include("Usuario").FirstOrDefaultAsync(e => e.PresencaId == id);
             }
         }
 
@@ -47,7 +47,7 @@ namespace BackEnd.Repositories
             using(GufosContext _contexto = new GufosContext()){
                // Include e como se fosse um join, após instalarmos a biblioteca do JSON incluimos os Includes
                // Include("") = Adiciona a arvore 
-               return await _contexto.Presenca.Include("Presenca").Include("Usuario").ToListAsync();
+               return await _contexto.Presenca.Include("Evento").Include("Usuario").ToListAsync();
               
             }
         }
