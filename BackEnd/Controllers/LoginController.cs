@@ -3,7 +3,8 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using BackEnd.Models;
+using BackEnd.Domains;
+using BackEnd.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -28,14 +29,14 @@ namespace BackEnd.Controllers
         }
 
         // Chamamos nosso método para validar o usuário na aplicação, verificando se ele existe em nosso banco de dados
-        private Usuario ValidaUsuario(Usuario login) {
+        private Usuario ValidaUsuario(LoginViewModel login) { // Antes era (Usuario login)
             var usuario = _contexto.Usuario.FirstOrDefault(
                 u => u.Email == login.Email && u.Senha == login.Senha
             );
 
-            if(usuario != null) {
-                usuario = login;
-            }
+            // if(usuario != null) {
+            //     usuario = login;
+            // }
 
             return usuario;
         }
@@ -70,7 +71,7 @@ namespace BackEnd.Controllers
         // Usa essa anotação para ignorar a autenticação nesse método
         [AllowAnonymous]
         [HttpPost]
-        public IActionResult Login([FromBody]Usuario login) {
+        public IActionResult Login([FromBody]LoginViewModel login) { // Antera era Usuario login
             
             IActionResult response = Unauthorized();
             var user = ValidaUsuario(login);

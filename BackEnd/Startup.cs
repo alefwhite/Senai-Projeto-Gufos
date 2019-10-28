@@ -47,6 +47,17 @@ using System.Text;
 //Adicionamos o pacote JWT
 // dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 3.0.0
 
+/*
+    Apagamos a pasta Models e fazemos o scaffold novamente, com a nomenclatura Domains no lugar de Models
+    Antes disso recortamos nossos Controllers para outro diretório para não dar erro de Build
+    dotnet ef dbcontext scaffold "Server=DESKTOP-LKMH5JG\SQLEXPRESS; Database=Gufos; User Id=sa; Password=132" Microsoft.EntityFrameworkCore.SqlServer -o Domains -d
+
+ */
+
+/*
+    Depois de gerados os domínios(models) recolocamos os controllers dentro do projeto
+    Substituímos todos os "Usings" de nossos Controllers que estão como "Models" para "Domains"
+ */
 namespace BackEnd
 {
     public class Startup

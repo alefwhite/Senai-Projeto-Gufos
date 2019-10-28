@@ -3,3 +3,21 @@ https://mherman.org/blog/swagger-and-nodejs/
 
 //
 https://haveibeenpwned.com
+
+
+// =====================================================================
+Design Pattern
+DDD - Domain Driving Design
+
+1 - Domainns
+2 - Repositories
+3 - Interfaces
+4 - ViewModels
+           
+                  [BD]
+Models              |
+[Domains] ---- [Repositories] ---- [Controllers]
+                    |
+               [Interfaces]
+
+//=========================================================================
