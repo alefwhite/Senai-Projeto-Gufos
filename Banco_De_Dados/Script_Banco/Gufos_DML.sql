@@ -29,9 +29,20 @@ VALUES('C#', 2, 0, '2019-08-07 18:00:00', 1),
 
 -- Tabela de Presenca
 INSERT INTO Presenca(Evento_id, Usuario_id, Presenca_status) 
-VALUES(2, 2, 'AGUARDANDO'),(3, 1, 'CONFIRMADO');
+VALUES(2, 2, 'AGUARDANDO'),(1, 3, 'CONFIRMADO');
 
 /*** Inserindo os dados nas tabelas do projeto Gufos ***/
 
+INSERT INTO Usuario(Nome, Email, Senha, Tipo_usuario_id) VALUES('Alef', 'alefwhite@gmail.com', '123', 2);
 
 SELECT * FROM Evento
+
+SELECT * FROM Presenca
+
+Select * from Usuario
+
+select * from Tipo_usuario
+
+select * from Categoria
+
+select * from Localizacao

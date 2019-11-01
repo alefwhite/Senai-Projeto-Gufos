@@ -1,28 +1,30 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\fic\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj": {}
+    "C:\\Users\\AlefW\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj": {}
   },
   "projects": {
-    "C:\\Users\\fic\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj": {
+    "C:\\Users\\AlefW\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\fic\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj",
+        "projectUniqueName": "C:\\Users\\AlefW\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj",
         "projectName": "BackEnd",
-        "projectPath": "C:\\Users\\fic\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj",
-        "packagesPath": "C:\\Users\\fic\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\fic\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\obj\\",
+        "projectPath": "C:\\Users\\AlefW\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\BackEnd.csproj",
+        "packagesPath": "C:\\Users\\AlefW\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\AlefW\\Desktop\\Senai-Projeto-Gufos\\BackEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "C:\\Users\\fic\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\AlefW\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
