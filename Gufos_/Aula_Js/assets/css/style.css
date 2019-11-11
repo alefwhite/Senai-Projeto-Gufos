@@ -592,7 +592,7 @@ nav .cabecalhoPrincipal-nav-login {
   align-items: center;
 }
 
-#conteudoPrincipal-cadastro input {
+/* #conteudoPrincipal-cadastro input {
   width: 50%;
   margin: 10px;
   text-align: center;
@@ -603,7 +603,7 @@ nav .cabecalhoPrincipal-nav-login {
   height: 34px;
   font-size: 12px;
   box-shadow: 1px 1px 1px #ccc;
-}
+} */
 
 #conteudoPrincipal-cadastro select {
   width: 50%;
@@ -697,7 +697,7 @@ nav .cabecalhoPrincipal-nav-login {
   }
 
   .conteudoPrincipal-btn {
-    width: 20%;
+    width: 25%;
   }
 
 }
