@@ -4,10 +4,11 @@ namespace BackEnd.ViewModels
 {
     public class LoginViewModel 
     {   
-        [Required]
+        [Required(ErrorMessage = "Informe o e-mail")]
         public string Email { get; set; }
 
-        [StringLength(255, MinimumLength = 3)]
+        [Required(ErrorMessage = "Informe a senha")]        
+        [StringLength(255, MinimumLength = 3, ErrorMessage = "A senha deve conter no mínimo 3 caracteres")]
         public string Senha { get; set; }
     }
 }
