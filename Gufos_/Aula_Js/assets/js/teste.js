@@ -17,40 +17,51 @@ function enviar() {
   // previnir comportamento padrão da página
   event.preventDefault();
 
-  // acessar através de variavel o 'tbody'
-  var tabela = document.getElementById('tabela-lista-corpo');
+  let txt = campo2.value;
+  let msg = document.getElementById("msg");
 
-  // crio a linha da tabela
-  var linha = document.createElement('tr');
-
-  // crio a coluna da tabela
-  var colunaId = document.createElement('td');
-  var colunaEvento = document.createElement('td');
-
-  // Colocando o valor do input dentro
-  colunaId.textContent = campo2.value;
-  colunaEvento.textContent = campo.value;
-
-  // Adicionando as colunas na linha, conteudo filho no pai
-  linha.appendChild(colunaId);
-  linha.appendChild(colunaEvento);
-
-  // Icluindo as linha no corpo
-  tabela.appendChild(linha);
-
-  // Limpar os campos
-  campo.value = "";
-  campo2.value = "";
-  campo.className = "";
+  if(txt.length <= 3) {
+    campo2.focus();  
+    msg.style.color = "red";
+    msg.innerText = "O ID deve conter no mínimo 3 dígitos.";
+    
+  }else {
+    // acessar através de variavel o 'tbody'
+    var tabela = document.getElementById('tabela-lista-corpo');
   
-  // Outra fora de limpar os campos
-  // var form = document.getElementsByTagName('form')[0];
-  // form.reset();
-
-  campo2.focus();  
+    // crio a linha da tabela
+    var linha = document.createElement('tr');
+  
+    // crio a coluna da tabela
+    var colunaId = document.createElement('td');
+    var colunaEvento = document.createElement('td');
+  
+    // Colocando o valor do input dentro
+    colunaId.textContent = campo2.value;
+    colunaEvento.textContent = campo.value;
+  
+    // Adicionando as colunas na linha, conteudo filho no pai
+    linha.appendChild(colunaId);
+    linha.appendChild(colunaEvento);
+  
+    // Icluindo as linha no corpo
+    tabela.appendChild(linha);
+  
+    // Limpar os campos
+    campo.value = "";
+    campo2.value = "";
+    campo.className = "";
+    
+    // Outra fora de limpar os campos
+    // var form = document.getElementsByTagName('form')[0];
+    // form.reset();
+  }
+  
+  setTimeout(function(){
+    msg.innerText = "";
+  }, 3000);  
 
 }
-
 
 
 
