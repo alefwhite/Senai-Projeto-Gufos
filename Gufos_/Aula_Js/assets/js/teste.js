@@ -1,6 +1,9 @@
 var campo = document.getElementById('nome-tipo-evento');
 var campo2 = document.getElementById('nome-tipo-codigo');
 
+var btn = document.getElementsByClassName("conteudoPrincipal-btn-cadastro");
+btn[0].style.backgroundColor = "red";
+
 function inserir() {
   let txt = campo.value;
 
@@ -9,6 +12,11 @@ function inserir() {
 
   } else {
     campo.className = 'input1';
+  }
+
+  if(txt.length > 5) {
+    btn[0].style.backgroundColor = "#ECDDF3";
+    btn[0].disabled = false;
   }
 
 }
@@ -23,7 +31,7 @@ function enviar() {
   if(txt.length <= 3) {
     campo2.focus();  
     msg.style.color = "red";
-    msg.innerText = "O ID deve conter no mínimo 3 dígitos.";
+    msg.innerText = "O ID deve conter no mínimo 4 dígitos.";
     
   }else {
     // acessar através de variavel o 'tbody'
