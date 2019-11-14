@@ -67,6 +67,9 @@ namespace BackEnd
             Configuration = configuration;
         }
 
+        //para habilitar o cors, Cors Serve para que o FrontEnd consiga acessar as apis do backend 
+        readonly string PermissaoEntreOrigens = "_PermissaoEntreOrigens";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -102,6 +105,12 @@ namespace BackEnd
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Jwt:Key"]))
                 };
             });
+
+             //habilitação do cors
+            services.AddCors (options => {
+                options.AddPolicy (PermissaoEntreOrigens,
+                    builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -111,6 +120,8 @@ namespace BackEnd
             {
                 app.UseDeveloperExceptionPage();
             }
+            //cors 
+            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             // Usamos Efetivamente o SWAGGER
             app.UseSwagger();
@@ -122,7 +133,7 @@ namespace BackEnd
             // Usamos efetivamente a autenticação
             app.UseAuthentication();
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection(); // Quando o front for consumir as apis do back desabilitar esse httpsredirection
 
             app.UseRouting();
 
@@ -132,6 +143,7 @@ namespace BackEnd
             {
                 endpoints.MapControllers();
             });
+
         }
     }
 }

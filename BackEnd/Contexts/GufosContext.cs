@@ -27,9 +27,9 @@ namespace BackEnd.Domains
             if (!optionsBuilder.IsConfigured)
             {
                 //#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                // Senai//optionsBuilder.UseSqlServer("Server=DESKTOP-LKMH5JG\\SQLEXPRESS; Database=Gufos; User Id=sa; Password=132");
+                optionsBuilder.UseSqlServer("Server=DESKTOP-LKMH5JG\\SQLEXPRESS; Database=Gufos; User Id=sa; Password=132");
                 // Casa//optionsBuilder.UseSqlServer("Server=DESKTOP-LKMH5JG\\SQLEXPRESS; Database=Gufos; User Id=sa; Password=132");
-                optionsBuilder.UseSqlServer("Server=ALEFWHITE\\SQLEXPRESS; Database=Gufos; User Id=sa; Password=root");
+                // optionsBuilder.UseSqlServer("Server=ALEFWHITE\\SQLEXPRESS; Database=Gufos; User Id=sa; Password=root");
 
             }
         }
