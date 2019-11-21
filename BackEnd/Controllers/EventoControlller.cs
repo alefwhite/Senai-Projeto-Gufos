@@ -82,11 +82,13 @@ namespace BackEnd.Controllers
                 } else {
                     throw;
                 }
-                
-            }
-            
-            // NoContent() - Retorna 204
-            return NoContent();
+            }            
+
+            return Ok( new {
+                Mensagem = "Alterado com Sucesso",
+                erro = true
+            }); 
+           
         }
 
         //DELETE api/evento/id
